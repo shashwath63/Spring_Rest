@@ -18,7 +18,7 @@ public class JobRestController {
 
     @GetMapping("jobPosts")
     @ResponseBody//it tells we are returning not the view name
-    // but we and returning the json data to viewResolver or we can use annotation @RestController instead of @Controller
+     //but we and returning the json data to viewResolver or we can use annotation @RestController instead of @Controller
     public List<JobPost> getAllJobs(){
         return service.getAllJobs();
     }
@@ -41,6 +41,17 @@ public class JobRestController {
     public String deleteJob(@PathVariable("postId") int postId){
         service.deleteJob(postId);
         return "Delete Successfull";
+    }
+
+    @GetMapping("load")
+    public String loadJobs(){
+        service.loadJobs();
+        return "loaded successfully";
+    }
+
+    @GetMapping("jobPosts/keyword/{keyword}")
+    public List<JobPost> searchByKeyword(@PathVariable String keyword){
+        return service.search(keyword);
     }
 }
 

@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import SearchBox from './SearchBox';
 import { useNavigate } from "react-router";
 function Home() {
     const navigate = useNavigate();
@@ -14,12 +15,17 @@ const [jobs,setJobs]=useState([]);
 const navigateToJob=(id)=>{
     navigate(`/job/${id}`);
 }
+const handleJobSearch = (job) => {
+  if(job.length!==0){
+    setJobs(job);
+  }
+}
     return (
           <>
      <div>
         <button onClick={()=>navigate("/addJob")}>Add Job</button>
         <h1>Jobs</h1>
-
+        <SearchBox jobs={jobs} handleJobSearch={handleJobSearch}/>
          {jobs.map((job)=>{
           return (
             <div onClick={()=>navigateToJob(job.postId)} key={job.postId} className='w-screen job-item grid grid-cols-12 border border-black'>
