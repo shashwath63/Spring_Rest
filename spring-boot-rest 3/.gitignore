@@ -28,6 +28,9 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+.DS_Store
+.AppleDouble
+.LSOverride
 
 ### VS Code ###
 .vscode/
