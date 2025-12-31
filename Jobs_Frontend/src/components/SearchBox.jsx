@@ -1,11 +1,15 @@
-import React,{useState,useEffect,useCallback} from 'react'
+import React,{useEffect,useCallback} from 'react'
 const SearchBox = ({job,handleJobSearch}) => {
-    const [jobs,setJobs]=useState([]);
     const fetchJobs = async (job) => {
+        if(job==="" || job=== undefined){
+            handleJobSearch([]);
+            return;
+        }
         const response = await fetch(`http://localhost:8080/jobPosts/keyword/${job}`);
         const data = await response.json();
         handleJobSearch(data);
     }
+
     const debounce = (func, delay) => {
         let timeout;
         return (...args) => {
@@ -13,14 +17,15 @@ const SearchBox = ({job,handleJobSearch}) => {
             timeout = setTimeout(() => func(...args), delay);
         };
     };
+
     const debouncedFetchJobs = useCallback(
-        debounce(fetchJobs, 1000), []);
+    debounce(fetchJobs, 1000), []);
     useEffect(()=>{
             debouncedFetchJobs(job);
     },[job])
     return (
         <div>
-            <input type="text" placeholder="Search" onChange={(e)=>debouncedFetchJobs(e.target.value)}/>
+            <input className='border border-gray-300 rounded p-2 w-1/2 m-2' type="text" placeholder="Search" onChange={(e)=>debouncedFetchJobs(e.target.value)}/>
         </div>
     );
 };
